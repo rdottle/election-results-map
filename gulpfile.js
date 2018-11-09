@@ -5,11 +5,17 @@ var
   connect = require('gulp-connect'),
   deploy = require('gulp-gh-pages'),
   pug = require('gulp-pug'),
-  watch = require('gulp-watch'),
   uglify = require('gulp-uglify'),
   sass = require('gulp-sass'),
   autoprefixer = require('gulp-autoprefixer'),
   csso = require('gulp-csso'),
+  babel = require('gulp-babel'),
+  browserify  = require('browserify');
+  babelify = require('babelify');
+  source = require('vinyl-source-stream');
+  buffer = require('vinyl-buffer');
+  sourcemaps = require('gulp-sourcemaps');
+  livereload = require('gulp-livereload');
 
   // folders
   folder = {
@@ -30,24 +36,49 @@ const AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
-gulp.task('scripts', function() {
-  return gulp.src('src/js/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('build/js'))
+// gulp.task('scripts', function() {
+//   return gulp.src('src/js/**/*.js')
+//     .pipe(uglify())
+//     .pipe(gulp.dest('build/js'))
+// });
+
+gulp.task('build', function () {
+    // app.js is your main JS file with all your module inclusions
+    return browserify({entries: 'src/js/index.js', debug: true})
+        .transform("babelify", { presets: ["@babel/preset-env"] })
+        .bundle()
+        .pipe(source('index.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest('build/js'))
+        .pipe(livereload());
+});
+
+// gulp.task('es6', () => {
+//     gulp.src('src/js/*.js')
+//         .pipe(babel())
+//         .pipe(gulp.dest('build/js'));
+// });
+
+gulp.task('watch', ['build'], function () {
+    livereload.listen();
+    gulp.watch('src/js/*.js', ['build']);
 });
 
 gulp.task('pug',function() {
  return gulp.src('src/html/index.pug')
  .pipe(pug({
     doctype: 'html',
-    pretty: true
+    pretty: false
  }))
  .pipe(gulp.dest('build/html'));
 });
 
 // Gulp task to minify CSS files
 gulp.task('styles', function () {
-  return gulp.src('src/scss/index.scss')
+  return gulp.src('scss/index.scss')
     // Compile SASS files
     .pipe(sass({
       outputStyle: 'nested',
@@ -78,4 +109,4 @@ gulp.task('webserver', function() {
 })
 
 // default task
-gulp.task('default', ['webserver','styles', 'pug', 'scripts']);
+gulp.task('default', ['webserver','styles', 'pug', 'watch']);
