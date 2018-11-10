@@ -36,31 +36,17 @@ const AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
-// gulp.task('scripts', function() {
-//   return gulp.src('src/js/**/*.js')
-//     .pipe(uglify())
-//     .pipe(gulp.dest('build/js'))
-// });
-
 gulp.task('build', function () {
-    // app.js is your main JS file with all your module inclusions
     return browserify({entries: 'src/js/index.js', debug: true})
         .transform("babelify", { presets: ["@babel/preset-env"] })
         .bundle()
         .pipe(source('index.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
-        .pipe(uglify())
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('build/js'))
         .pipe(livereload());
 });
-
-// gulp.task('es6', () => {
-//     gulp.src('src/js/*.js')
-//         .pipe(babel())
-//         .pipe(gulp.dest('build/js'));
-// });
 
 gulp.task('watch', ['build'], function () {
     livereload.listen();
