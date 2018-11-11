@@ -51,7 +51,7 @@ class Map {
 				.enter()
 					.append("path")
 					.attr('class', d => {
-						return this.findMaxVote(`${this.year}_${d.properties.STUSPS}`)
+						return this.getWinningParty(`${this.year}_${d.properties.STUSPS}`)
 					})
 					.attr("d", this.path)
                     .attr('transform', `translate(${tf[0]},${tf[1]})`)
@@ -83,7 +83,7 @@ class Map {
    		});
     }
 
-    findMaxVote(state) {
+    getWinningParty(state) {
     	let state_obj = this.data[state];
     	let max = 0;
     	let winning_party;
