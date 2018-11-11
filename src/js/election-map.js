@@ -16,7 +16,6 @@ class Map {
 		this.div = document.getElementById('map');
 		this.parentHeight = this.div.clientHeight;
 		this.parentWidth = this.div.clientWidth;
-		console.log(this.year);
 	}
 
 	init () {
@@ -49,8 +48,7 @@ class Map {
 				.enter()
 					.append("path")
 					.attr('class', d => {
-						console.log(this.findMaxVote(`2008_${d.properties.STUSPS}`));
-						return this.findMaxVote(`2008_${d.properties.STUSPS}`)
+						return this.findMaxVote(`${this.year}_${d.properties.STUSPS}`)
 					})
 					.attr("d", this.path)
                     .attr('transform', `translate(${tf[0]},${tf[1]})`)
