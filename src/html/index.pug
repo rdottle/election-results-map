@@ -6,5 +6,12 @@ html
       include ../../build/js/index.js
     title TK
   body
-    p TK TEST
+    p See election results
+    form
+      input(type ="radio" name = "year" id = "2004" value = "2004")
+      label(for = "2004") 2004 
+      input(type = "radio" name = "year" id = "2008" value = "2008") 
+      label(for = "2008") 2008
+      input(type = "radio" name = "year" id = "2012" value = "2012") 
+      label(for = "2012") 2012
     .map#map
