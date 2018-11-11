@@ -58,12 +58,14 @@ class Map {
 					.style("stroke", "#fff")
 					.style("stroke-width", "1")
 					.on("mouseover", (d) => {
-						let state = d.properties.STUSPS;		
+						let state = d.properties.STUSPS;
+						let candidate = this.getCandidate(`${this.year}_${d.properties.STUSPS}`);
+						let votes = this.getVotes(`${this.year}_${d.properties.STUSPS}`);
             			this.tooltip.transition()		
                 			.duration(200)		
                 			.style("opacity", .9);		
                 		this.tooltip.html(d => {
-                			return state;
+                			return `${state} ${candidate.name} ${votes}`;
                 		})	
 	                .style("top", (d3.event.layerY + 15) + "px")
 	                .style("left", (d3.event.layerX + 15) + "px");
@@ -83,7 +85,7 @@ class Map {
    		});
     }
 
-    getWinningParty(state) {
+    getWinningParty (state) {
     	let state_obj = this.data[state];
     	let max = 0;
     	let winning_party;
@@ -100,6 +102,37 @@ class Map {
     	return winning_party;
     }
 
+    getCandidate (state) {
+    	let state_obj = this.data[state];    	
+    	let max = 0;
+    	let candidate;
+    	Object.keys(state_obj).forEach(function(key) {
+    		if (max < state_obj[key].votes) {
+    			max = state_obj[key].votes;
+    			candidate = state_obj[key];
+    			return candidate;
+    		}
+    		else {
+    			return candidate;
+    		}
+    	});
+    	return candidate.name;
+    }
+
+    getVotes (state) {
+    	let state_obj = this.data[state];    	
+    	let max = 0;
+    	Object.keys(state_obj).forEach(function(key) {
+    		if (max < state_obj[key].votes) {
+    			max = state_obj[key].votes;
+    			return max;
+    		}
+    		else {
+    			return max;
+    		}
+    	});
+    	return max;
+    }
 }
 
 export { Map }; 
