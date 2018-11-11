@@ -10,12 +10,12 @@ class Map {
 		this.data = opts.data;
 		this.topo = opts.us;
 		this.parent = opts.parent;
-
-		this.projection = d3.geoAlbers()
-				.translate([1400/2, 700/2])    
-				.scale([1000]);
-
-		this.path = d3.geoPath();          
+		this.width = opts.width;
+		this.height = opts.width;
+		this.states = feature(this.topo, this.topo.objects.us);  
+		this.div = document.getElementById('map');
+		this.parentHeight = this.div.clientHeight;
+		this.parentWidth = this.div.clientWidth;
 	}
 
 	init () {
@@ -26,15 +26,24 @@ class Map {
 		this.addMap();
 	}
 
+	joinData () {
+
+	}
+
 	addMap () {
+
+		const bounds = d3.geoPath().projection(this._geoScale(1)).bounds(this.states);
+    	const scale = Math.min(this.width / (bounds[1][0] - bounds[0][0]), this.height / (bounds[1][1] - bounds[0][1]));
+    	const tf = [(this.width - scale * (bounds[1][0] + bounds[0][0])) / 2, (this.height - scale * (bounds[1][1] + bounds[0][1])) / 2];
+
+		this.path = d3.geoPath().projection(this._geoScale(scale));     
 		this.svg = this.parent.append('svg')
 		 				.attr('width', 1400)
 		 				.attr('height', 700)
-		this.states = feature(this.topo, this.topo.objects.us);
 
-		console.log(this.states.features);
+		this.g = this.svg.append('g');
 
-	    this.svg.selectAll("path")
+	    this.g.selectAll("path")
 				.data(this.states.features)
 				.enter()
 					.append("path")
@@ -42,10 +51,19 @@ class Map {
 						return d.properties.STUSPS
 					})
 					.attr("d", this.path)
-					.attr("transform", "scale(" + 0.0007 + ")")
+                    .attr('transform', `translate(${tf[0]},${tf[1]})`)
 					.style("stroke", "#fff")
 					.style("stroke-width", "1");
 	}
+
+
+	_geoScale (scaleFactor) {
+	    return d3.geoTransform({
+	      point: function (x, y) {
+	        this.stream.point(x * scaleFactor, y * scaleFactor *-1);
+	      }
+   		});
+    }
 
 }
 
