@@ -42,6 +42,9 @@ class Map {
 		 				.attr('height', 700)
 
 		this.g = this.svg.append('g');
+		this.tooltip = this.parent.append("div")
+				.attr("class", "tooltip")
+				.style("opacity", 0);
 
 	    this.g.selectAll("path")
 				.data(this.states.features)
@@ -53,7 +56,23 @@ class Map {
 					.attr("d", this.path)
                     .attr('transform', `translate(${tf[0]},${tf[1]})`)
 					.style("stroke", "#fff")
-					.style("stroke-width", "1");
+					.style("stroke-width", "1")
+					.on("mouseover", (d) => {
+						let state = d.properties.STUSPS;		
+            			this.tooltip.transition()		
+                			.duration(200)		
+                			.style("opacity", .9);		
+                		this.tooltip.html(d => {
+                			return state;
+                		})	
+	                .style("top", (d3.event.layerY + 15) + "px")
+	                .style("left", (d3.event.layerX + 15) + "px");
+            			})					
+					.on("mouseout", (d) => {		
+            			this.tooltip.transition()		
+                			.duration(500)		
+                		.style("opacity", 0);	
+        });
 	}
 
 	_geoScale (scaleFactor) {
