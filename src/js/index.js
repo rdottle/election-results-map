@@ -8,16 +8,28 @@ const us = require('../../src/data/us.topo.json');
 var year = '2008';
 var url = `https://raw.githubusercontent.com/TimeMagazine/presidential-election-results/master/data/results_${year}.json`;
 
+function filterData (data) {
+	var results = [];
+	console.log(data);
+
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function(){
    json(url).then(function (data) {
+   	filterData(data);
     const electionMap = new Map({
 	    year: year,
 	    data: data,
 	    us: us,
-	    parent: select('.map')
+	    parent: select('.map'),
+	    height:900, 
+	    width: 600
     });
 
     electionMap.init();
 });
 
 });
+
