@@ -25,7 +25,7 @@ function drawMap (year) {
 			    data: data,
 			    us: us,
 			    parent: select('.map'),
-			    height:900, 
+			    height: 900, 
 			    width: 600
 			});
 
