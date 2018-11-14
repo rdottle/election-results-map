@@ -36,10 +36,10 @@ class Map {
     	const scale = Math.min(this.width / (bounds[1][0] - bounds[0][0]), this.height / (bounds[1][1] - bounds[0][1]));
     	const tf = [(this.width - scale * (bounds[1][0] + bounds[0][0])) / 2, (this.height - scale * (bounds[1][1] + bounds[0][1])) / 2];
 
-		this.path = d3.geoPath().projection(this._geoScale(scale));     
+		this.path = d3.geoPath().projection(this._geoScale(scale));    
 		this.svg = this.parent.append('svg')
-		 				.attr('width', 1400)
-		 				.attr('height', 700)
+		 				.attr('width', this.width)
+		 				.attr('height', this.height);
 
 		this.g = this.svg.append('g');
 		this.tooltip = this.parent.append("div")
@@ -51,7 +51,7 @@ class Map {
 				.enter()
 					.append("path")
 					.attr('class', d => {
-						return this.getWinningParty(`${this.year}_${d.properties.STUSPS}`)
+						return this.getWinningParty(`${this.year}_${d.properties.STUSPS}`);
 					})
 					.attr("d", this.path)
                     .attr('transform', `translate(${tf[0]},${tf[1]})`)
@@ -61,11 +61,11 @@ class Map {
 						let state = d.properties.STUSPS;
 						let candidate = this.getCandidate(`${this.year}_${d.properties.STUSPS}`);
 						let votes = this.getVotes(`${this.year}_${d.properties.STUSPS}`);
-            			this.tooltip.transition()		
-                			.duration(200)		
+            			this.tooltip.transition()	
+                			.duration(200)
                 			.style("opacity", .9);		
                 		this.tooltip.html(d => {
-                			return `${state} ${candidate.name} ${votes}`;
+                			return `${state} ${candidate} ${votes}`;
                 		})	
 	                .style("top", (d3.event.layerY + 15) + "px")
 	                .style("left", (d3.event.layerX + 15) + "px");
