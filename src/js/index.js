@@ -7,15 +7,45 @@ const us = require('../../src/data/us.topo.json');
 
 document.addEventListener("DOMContentLoaded", function(){
 	drawMap(2012);
-	document.querySelector('form').addEventListener('change', function (e) {
+	document.querySelector('form.inputs').addEventListener('change', function (e) {
 		var year = e.target.value;
 		var elem = document.querySelector('svg');
 		elem.parentNode.removeChild(elem);
 		drawMap(year);
-
 	});
+
+
+// To return form submissions check for valid element and values
+const isValidElement = element => {
+  return element.name && element.value;
+};
+
+const isValidValue = element => {
+  return (!['checkbox', 'radio'].includes(element.type) || element.checked);
+};
+const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+
+  if (isValidElement(element) && isValidValue(element)) {
+      data[element.name] = element.value;
+  }
+  return data;
+}, {});
+
+// Output JSON format of submit
+const handleFormSubmit = event => {
+    event.preventDefault();
+    const data = formToJSON(form.elements);
+	const dataContainer = document.getElementsByClassName('results')[0];
+    dataContainer.textContent = JSON.stringify(data, null, "  ");
+};
+
+// Event listener to add results to page
+const form = document.getElementsByClassName('submits')[0];
+form.addEventListener('submit', handleFormSubmit);
+
 });
 
+// init map
 function drawMap (year) {
 		var url = `https://raw.githubusercontent.com/TimeMagazine/presidential-election-results/master/data/results_${year}.json`;
 
@@ -32,3 +62,7 @@ function drawMap (year) {
     		electionMap.init();
 		});
 }
+
+
+
+
