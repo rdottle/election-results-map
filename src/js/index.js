@@ -7,8 +7,11 @@ const us = require('../../src/data/us.topo.json');
 
 document.addEventListener("DOMContentLoaded", function(){
 	drawMap(2012);
+	document.querySelector('label[for="2012"]').classList.add('is-selected');
 	document.querySelector('form.inputs').addEventListener('change', function (e) {
 		var year = e.target.value;
+		document.querySelector('.is-selected').classList.remove('is-selected');
+		document.querySelector(`label[for="${year}"]`).classList.add('is-selected');
 		var elem = document.querySelector('svg');
 		elem.parentNode.removeChild(elem);
 		drawMap(year);
