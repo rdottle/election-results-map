@@ -1,3 +1,6 @@
+body {
+  font-family: Helvetica;
+}
 .map {
 	width: 800px;
 	height: 600px;
@@ -8,12 +11,12 @@
 
    }
     
-    .Democratic, .Democratic-Farmer.Labor {
-    	fill: #008fd5;
-    }
-    .Republican {
-    	fill: #ff2700
-    }
+.Democratic, .Democratic-Farmer.Labor {
+	fill: #008fd5;
+}
+.Republican {
+	fill: #ff2700
+}
 
 .tooltip {
   position: absolute;
@@ -44,8 +47,33 @@
   display: flex;
   width: 25%;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   border-top: 1px solid #999;
   padding-top: 10px;
 }
+
+p {
+  text-align: center;
+}
+
+.submits {
+  display: flex;
+  justify-content: flex-end;
+  width: 25%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  text-transform: uppercase;
+}
+
+.data {
+  width: 60%;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+pre {
+  width: 25%;
+  margin: 30px auto;
+  background-color: #fafafa;
+  padding: 10px;
 }
