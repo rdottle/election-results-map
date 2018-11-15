@@ -23,4 +23,29 @@
   border: 1px solid;
 }
 
+.year {
+  -webkit-appearance: none;
+}
 
+.year-label {
+  color: #999;
+  width: 33%;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+}
+
+.year-label:hover, .is-selected {
+  color: #222;
+  border: 1px solid #222;
+}
+
+.inputs {
+  display: flex;
+  width: 25%;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  border-top: 1px solid #999;
+  padding-top: 10px;
+}
+}
