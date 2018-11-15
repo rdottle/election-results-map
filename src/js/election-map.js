@@ -61,7 +61,7 @@ class Map {
                 			.duration(200)
                 			.style("opacity", .9);		
                 		this.tooltip.html(d => {
-                			return `${state} ${candidate} ${votes}`;
+                			return `${state} ${candidate} ${votes.toLocaleString()}`;
                 		})	
 	                .style("top", (d3.event.layerY + 15) + "px")
 	                .style("left", (d3.event.layerX + 15) + "px");
