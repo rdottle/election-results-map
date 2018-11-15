@@ -2,7 +2,7 @@ import { feature } from 'topojson-client';
 import { select, append } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { geoPath, geo } from 'd3-geo';
-import * as d3 from 'd3'; 
+import * as d3 from 'd3';
 
 class Map {
 	constructor(opts) {
@@ -12,22 +12,18 @@ class Map {
 		this.parent = opts.parent;
 		this.width = opts.width;
 		this.height = opts.width;
-		this.states = feature(this.topo, this.topo.objects.us);  
+		this.states = feature(this.topo, this.topo.objects.us); 
 		this.div = document.getElementById('map');
 		this.parentHeight = this.div.clientHeight;
 		this.parentWidth = this.div.clientWidth;
 	}
 
-	init () {
-		this.draw();
+    init () {
+        this.draw();
 	}
 
 	draw () {
 		this.addMap();
-	}
-
-	joinData () {
-
 	}
 
 	addMap () {
